@@ -30,8 +30,16 @@
             v-model="input.v_model"
             :label="MAP.INPUTS_LABELS[input.label]"
             :type="input?.type === 'password' ? 'password' : ''"
+            :rules="[
+              (val) => !!val || `${MAP.INPUTS_LABELS[input.label]} is required`,
+            ]"
             filled
             clearable
+            :ref="
+              (currentInputObj) => {
+                inputRefs[input.label] = currentInputObj;
+              }
+            "
           >
             <template #prepend>
               <q-icon :name="input.icon"></q-icon>
@@ -72,21 +80,21 @@
             {{ MAP.STATEMENTS[information.STATEMENTS.SIGN_UP_NOW] }}
           </router-link>
         </div>
-        <div class="q-my-md">Or</div>
-        <div id="socialsignup" class="column flex-center">
-          <div>
-            {{ MAP.STATEMENTS[information.STATEMENTS.CREATE_ACC_WITH] }}
-          </div>
-          <social-btns />
-        </div>
       </div>
+      <!-- <div class="q-my-md">Or</div>
+      <div id="socialsignup" class="column flex-center">
+        <div>
+          {{ MAP.STATEMENTS[information.STATEMENTS.CREATE_ACC_WITH] }}
+        </div>
+        <social-btns />
+      </div> -->
     </q-card-actions>
   </q-card>
 </template>
 
 <script>
 import SocialSignUp from "../components/SocialSignUp.vue";
-import { computed } from "vue";
+import { computed, onBeforeUpdate, ref } from "vue";
 import { useStore } from "vuex";
 export default {
   name: "InputCard",
@@ -101,29 +109,63 @@ export default {
     },
   },
   components: {
-    "social-btns": SocialSignUp,
+    // "social-btns": SocialSignUp,
   },
   setup(props) {
     const $store = useStore();
     const MAP = computed(() => {
       return $store.getters["translation/getMap"];
     });
+    const context = computed(() => {
+      return $store.getters["appcommons/getContext"];
+    });
     function changeContext(val) {
-      $store.commit("appcommons/toggleContext", val);
+      $store.dispatch("appcommons/toggleContext", val);
     }
+    const inputRefs = ref({});
     function authenticate() {
-      const payload = {
+      let hasError = false;
+      for (let property in inputRefs.value) {
+        inputRefs.value[property].validate();
+        if (inputRefs.value[property].hasError) {
+          hasError = true;
+        }
+      }
+      if (hasError) {
+        return;
+      }
+      let payload = {
         email: props.inputs.find((inp) => inp.label === "EMAIL")["v_model"],
         password: props.inputs.find((inp) => inp.label === "PASSWORD")[
           "v_model"
         ],
       };
-      console.log(payload);
+      if (context.value) {
+        $store.dispatch("authentication/login", payload);
+      } else {
+        const signUpSpecific = {
+          first_name: props.inputs.find((inp) => inp.label === "FIRST_NAME")[
+            "v_model"
+          ],
+          last_name: props.inputs.find((inp) => inp.label === "LAST_NAME")[
+            "v_model"
+          ],
+        };
+        payload = Object.assign(payload, signUpSpecific);
+        $store.dispatch("authentication/signup", payload);
+      }
     }
+
+    // make sure to reset the refs before each update
+    onBeforeUpdate(() => {
+      inputRefs.value = [];
+    });
+
     return {
       MAP,
       changeContext,
       authenticate,
+      inputRefs,
     };
   },
 };

@@ -16,6 +16,16 @@ export const LOGIN_INPUTS = ref([
 
 export const SIGNUP_INPUTS = ref([
   {
+    icon: "mdi-account",
+    label: "FIRST_NAME",
+    v_model: null,
+  },
+  {
+    icon: "mdi-account-tie",
+    label: "LAST_NAME",
+    v_model: null,
+  },
+  {
     icon: "mdi-mail",
     label: "EMAIL",
     v_model: null,
