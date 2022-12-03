@@ -9,7 +9,8 @@ export async function login({ commit }, payload) {
     });
     return result;
   } catch (err) {
-    console.log(err);
+    console.log(err.response.data.detail);
+    return err.response;
     // Create a showerror notification
   }
 }
@@ -20,6 +21,7 @@ export async function signup({ commit }, payload) {
     return result;
   } catch (err) {
     console.log(err);
+    return err.response;
     // Create a showerror notification
   }
 }

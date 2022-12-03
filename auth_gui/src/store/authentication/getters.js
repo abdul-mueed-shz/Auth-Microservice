@@ -1,4 +1,3 @@
-/*
-export function someGetter (state) {
+export function getAuthDetails(state) {
+  return state.auth_details;
 }
-*/

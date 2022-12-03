@@ -15,7 +15,11 @@
       <error-card v-else :error-message="error" />
     </div>
     <div class="gt-sm col-4 column flex-center bg-primary">
-      <q-img class="logo" :src="AppIconSrc"></q-img>
+      <q-img v-if="!error" class="logo" :src="AppIconSrc"></q-img>
+      <div v-else class="column flex-center">
+        <q-icon size="300px" name="mdi-emoticon-sad-outline"></q-icon>
+        <div>Can't fetch logo! Something Went Wrong</div>
+      </div>
     </div>
   </q-page>
 </template>
@@ -36,25 +40,36 @@ export default defineComponent({
   },
   setup() {
     const $store = useStore();
-    const currentMode = "local";
+    let currentMode = null;
     const error = ref(null);
     const AppIconSrc = ref(null);
     //
     const context = computed(() => {
       return $store.getters["appcommons/getContext"];
     });
-
     //
+    (() => {
+      if (process.env.DEV) {
+        currentMode = "local";
+      } else if (process.env.PROD) {
+        currentMode = "prod";
+      }
+    })();
+    function getQueryObjectFromQS(queryString) {
+      if (queryString) {
+        return Object.fromEntries(new URLSearchParams(queryString));
+      }
+    }
     function getQueryObject() {
-      let queryObject = window.location.search;
+      let queryObject = window.location.search.substring(1);
       if (!queryObject) {
         const [, query] = window.location.href.split("#")[1].split("?");
-        queryObject = Object.fromEntries(new URLSearchParams(query));
+        return getQueryObjectFromQS(query);
       }
-      return queryObject;
+      return getQueryObjectFromQS(queryObject);
     }
     function verifyRedirectUrl({ appTBC = null, redirectUrl = null }) {
-      if (redirectUrl) {
+      if (redirectUrl && currentMode) {
         return appTBC.redirect_urls_for_verification[currentMode].some(
           (redirect_verification_url) =>
             redirectUrl === redirect_verification_url
@@ -67,6 +82,10 @@ export default defineComponent({
     }
     function verifyQueryProperties() {
       let queryObject = getQueryObject();
+      if (!queryObject) {
+        createError("Query string is missing");
+        return;
+      }
       const activeApp = COUPLED_APPS.find(
         (app) => app.app_name === queryObject.app_name
       );
@@ -78,7 +97,6 @@ export default defineComponent({
         if (verification === true) {
           // Color(define and get those from thhe coupled app object)
           AppIconSrc.value = require(`../assets/icons/${activeApp.app_icon}`);
-          debugger;
           $store.commit("appcommons/setAppSettings", queryObject);
           return;
         } else if (verification === "404") {

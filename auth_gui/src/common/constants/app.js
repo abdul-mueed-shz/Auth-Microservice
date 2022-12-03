@@ -37,10 +37,15 @@ export const APP_CONSTANTS = Object.freeze({
 
 export const COUPLED_APPS = [
   {
-    app_name: "starks",
+    app_name: "Starks",
     app_icon: "starks.png",
     redirect_urls_for_verification: {
-      local: ["http://localhost:8081/"],
+      local: [
+        "http://localhost:8081",
+        "http://localhost:8081/#",
+        "http://localhost:8081/",
+        "http://localhost:8081/#/",
+      ],
       prod: [""],
     },
   },

@@ -10,7 +10,7 @@ DATABASES = {
         # 'NAME': BASE_DIR / 'db.sqlite3',
 
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ecom-api',
+        'NAME': 'login-api',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': '127.0.0.1',
