@@ -5,3 +5,8 @@ export function toggleContext(state, val) {
   }
   state.context = !state.context;
 }
+
+export function setAppSettings(state, appInfo) {
+  state.appConfig.app_name = appInfo.app_name;
+  state.appConfig.redirect_url = appInfo.redirect_url;
+}

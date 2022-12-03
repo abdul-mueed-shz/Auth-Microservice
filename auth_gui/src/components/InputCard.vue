@@ -30,8 +30,16 @@
             v-model="input.v_model"
             :label="MAP.INPUTS_LABELS[input.label]"
             :type="input?.type === 'password' ? 'password' : ''"
+            :rules="[
+              (val) => !!val || `${MAP.INPUTS_LABELS[input.label]} is required`,
+            ]"
             filled
             clearable
+            :ref="
+              (currentInputObj) => {
+                inputRefs[input.label] = currentInputObj;
+              }
+            "
           >
             <template #prepend>
               <q-icon :name="input.icon"></q-icon>
@@ -72,21 +80,26 @@
             {{ MAP.STATEMENTS[information.STATEMENTS.SIGN_UP_NOW] }}
           </router-link>
         </div>
-        <div class="q-my-md">Or</div>
-        <div id="socialsignup" class="column flex-center">
-          <div>
-            {{ MAP.STATEMENTS[information.STATEMENTS.CREATE_ACC_WITH] }}
-          </div>
-          <social-btns />
-        </div>
       </div>
+      <!-- <div class="q-my-md">Or</div>
+      <div id="socialsignup" class="column flex-center">
+        <div>
+          {{ MAP.STATEMENTS[information.STATEMENTS.CREATE_ACC_WITH] }}
+        </div>
+        <social-btns />
+      </div> -->
     </q-card-actions>
   </q-card>
 </template>
 
 <script>
 import SocialSignUp from "../components/SocialSignUp.vue";
-import { computed } from "vue";
+import {
+  errorNotification,
+  successNotification,
+} from "../common/utils/notification";
+import { clearSignUpInputs } from "../common/utils/functions";
+import { computed, onBeforeUpdate, ref } from "vue";
 import { useStore } from "vuex";
 export default {
   name: "InputCard",
@@ -101,29 +114,106 @@ export default {
     },
   },
   components: {
-    "social-btns": SocialSignUp,
+    // "social-btns": SocialSignUp,
   },
-  setup(props) {
+  setup(props, { emit }) {
     const $store = useStore();
+    const inputRefs = ref({});
+    //
     const MAP = computed(() => {
       return $store.getters["translation/getMap"];
     });
+    const context = computed(() => {
+      return $store.getters["appcommons/getContext"];
+    });
+
+    const appConfig = computed(() => {
+      return $store.getters["appcommons/getAppConfig"];
+    });
+    const authDetails = computed(() => {
+      return $store.getters["authentication/getAuthDetails"];
+    });
+    //
     function changeContext(val) {
-      $store.commit("appcommons/toggleContext", val);
+      $store.dispatch("appcommons/toggleContext", val);
     }
-    function authenticate() {
-      const payload = {
-        email: props.inputs.find((inp) => inp.label === "EMAIL")["v_model"],
-        password: props.inputs.find((inp) => inp.label === "PASSWORD")[
-          "v_model"
-        ],
-      };
-      console.log(payload);
+    function checkInputErrors() {
+      let hasError = false;
+      for (let property in inputRefs.value) {
+        inputRefs.value[property].validate();
+        if (inputRefs.value[property].hasError) {
+          hasError = true;
+        }
+      }
+      return hasError;
     }
+    function createPayload({ originalObject = {}, propertiesTBA = {} }) {
+      return { ...originalObject, ...propertiesTBA };
+    }
+    function handleResponse(result, handler) {
+      if (result.status !== 200) {
+        errorNotification(result.data.detail);
+        return;
+      }
+      if (handler) {
+        handler();
+      }
+    }
+    async function authenticate() {
+      if (checkInputErrors()) {
+        return;
+      }
+      let payload = createPayload({
+        originalObject: {},
+        propertiesTBA: {
+          email: props.inputs.find((inp) => inp.label === "EMAIL")["v_model"],
+          password: props.inputs.find((inp) => inp.label === "PASSWORD")[
+            "v_model"
+          ],
+        },
+      });
+      if (context.value) {
+        const result = await $store.dispatch("authentication/login", payload);
+        handleResponse(result, () => {
+          const queryStringObject = {
+            auth_token: authDetails.value.auth_token,
+          };
+          const queryString =
+            "?" + new URLSearchParams(queryStringObject).toString();
+          window.location.href = appConfig.value.redirect_url + queryString;
+        });
+        // console.log(result.auth_token);
+      } else {
+        payload = createPayload({
+          originalObject: payload,
+          propertiesTBA: {
+            first_name: props.inputs.find((inp) => inp.label === "FIRST_NAME")[
+              "v_model"
+            ],
+            last_name: props.inputs.find((inp) => inp.label === "LAST_NAME")[
+              "v_model"
+            ],
+          },
+        });
+        const result = await $store.dispatch("authentication/signup", payload);
+        handleResponse(result, () => {
+          successNotification("Account created successfully");
+          clearSignUpInputs();
+          changeContext(true);
+        });
+      }
+    }
+
+    // make sure to reset the refs before each update
+    onBeforeUpdate(() => {
+      inputRefs.value = [];
+    });
+
     return {
       MAP,
       changeContext,
       authenticate,
+      inputRefs,
     };
   },
 };

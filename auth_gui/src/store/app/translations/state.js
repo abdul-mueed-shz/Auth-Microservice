@@ -10,6 +10,8 @@ export default function () {
       INPUTS_LABELS: {
         EMAIL: "Email",
         PASSWORD: "Password",
+        FIRST_NAME: "First Name",
+        LAST_NAME: "Last Name",
       },
       BTN_LABELS: {
         LOGIN: "LOG IN",
