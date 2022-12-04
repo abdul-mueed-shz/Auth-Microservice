@@ -4,7 +4,6 @@
 
 <h1><img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="30px"/>Authentication Application</h1>
 
-
 <h4>A Full stack authentication application made using quasar 2 for frontend and django rest framework for backend. The application is made completely flexible to be coupled with any other application and implements jwt token authentication.</h4>
 
 
@@ -28,11 +27,33 @@
 
 #
 
+
+
+
+### Technologies used
+
+<div style="display:flex">
+<img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
+<img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" />
+<img src="https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white" />
+<img src="https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D" />
+ 
+![Quasar](https://img.shields.io/badge/Quasar-16B7FB?style=for-the-badge&logo=quasar&logoColor=black)![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray)![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+  
+</div>
+
 #
 <h2><img  width="30px" src="https://www.animatedimages.org/data/media/491/animated-television-image-0115.gif" border="0" alt="animated-television-image-0115" />
   Screenshots</h2>
 
-![intro](https://user-images.githubusercontent.com/52679916/197038116-db1fa56a-0796-4543-989d-d8d669471f4a.png)
+![login](https://user-images.githubusercontent.com/52679916/205466705-63f3bdee-a573-4ee4-b85e-f10fd6ec301e.PNG)
+![LoginFieldErrors](https://user-images.githubusercontent.com/52679916/205466706-22de96c9-ee24-4257-9d88-79bc2535c771.png)
+![SignUpFIeldErrors](https://user-images.githubusercontent.com/52679916/205466716-cab1fb15-f922-4046-986e-7a9c63d609e1.png)
+![error1](https://user-images.githubusercontent.com/52679916/205466702-eba19489-9389-4dbe-96a8-46bc7929e4a3.PNG)
+![error2](https://user-images.githubusercontent.com/52679916/205466704-7dca6294-7439-4024-9201-512e6c8587c3.PNG)
+![Responsive](https://user-images.githubusercontent.com/52679916/205466709-a501798b-5900-4eca-9f60-d6c65e91c3da.png)
+![Responsive3](https://user-images.githubusercontent.com/52679916/205466712-d47ade4b-a462-4516-b2f3-d1e8e7777ac2.png)
+
 
 <h2><img width="30px" src="https://www.animatedimages.org/data/media/491/animated-television-image-0134.gif" border="0" alt="animated-television-image-0134" />
 
@@ -41,17 +62,33 @@
 
 ##
 Install the dependencies
+(FrontEnd/gui)
 ```bash
 yarn
 # or
 npm install
+```
+(BackEnd/api)
+```
+# Create virtual env by executing the setup.bat in the build folder
+# Activate the venv by using the activate file in the build-env/scripts folder
+# After completing the above mentioned steps
+# Install the required packages by executing the following command
+pip install -r .\requirements\bast.txt 
+# Change the settings file if you want to change the database related information
+# Use the manage.py file and execute the following commands to apply required migrations
+python manage.py makemigrations 
+python manage.py migrate
 ```
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
 ```bash
 quasar dev
 ```
-
+### To start the server
+```
+python manage.py runserver 8000
+```
 
 ### Lint the files
 ```bash
@@ -70,16 +107,3 @@ quasar build
 ### Customize the configuration
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js).
 
-
-### Technologies used
-
-<div style="display:flex">
-<img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
-<img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" />
-<img src="https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white" />
-<img src="https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D" />
-</div>
-
-#
-
-Inspiration taken from [ saadpasta/developerFolio ](https://github.com/saadpasta/developerFolio).
