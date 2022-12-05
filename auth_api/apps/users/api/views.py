@@ -33,7 +33,9 @@ class LoginView(APIView):
             raise AuthenticationFailed('Incorrect Password')
 
         payload = {
-            "id": user.id,
+            "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
             "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
             "iat": datetime.datetime.utcnow()
         }
