@@ -49,4 +49,17 @@ export const COUPLED_APPS = [
       prod: [""],
     },
   },
+  {
+    app_name: "Licit",
+    app_icon: "starks.png",
+    redirect_urls_for_verification: {
+      local: [
+        "http://localhost:8081",
+        "http://localhost:8081/#",
+        "http://localhost:8081/",
+        "http://localhost:8081/#/",
+      ],
+      prod: [""],
+    },
+  },
 ];

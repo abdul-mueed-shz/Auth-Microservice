@@ -59,6 +59,7 @@
       <div id="actions" class="full-width q-mb-md">
         <q-btn
           @click="authenticate"
+          @keyup.enter="authenticate"
           class="full-width"
           rounded
           :label="MAP.BTN_LABELS[information.BTN_LABELS.LABEL1]"
@@ -159,21 +160,25 @@ export default {
         handler();
       }
     }
+
+    function getPayload() {
+      let payloadObject = {};
+      for (let index in props.inputs) {
+        payloadObject[props.inputs[index].label.toLowerCase()] =
+          props.inputs[index].v_model;
+      }
+      return payloadObject;
+    }
+
     async function authenticate() {
       if (checkInputErrors()) {
         return;
       }
-      let payload = createPayload({
-        originalObject: {},
-        propertiesTBA: {
-          email: props.inputs.find((inp) => inp.label === "EMAIL")["v_model"],
-          password: props.inputs.find((inp) => inp.label === "PASSWORD")[
-            "v_model"
-          ],
-        },
-      });
       if (context.value) {
-        const result = await $store.dispatch("authentication/login", payload);
+        const result = await $store.dispatch(
+          "authentication/login",
+          getPayload()
+        );
         handleResponse(result, () => {
           const queryStringObject = {
             auth_token: authDetails.value.auth_token,
@@ -182,20 +187,12 @@ export default {
             "?" + new URLSearchParams(queryStringObject).toString();
           window.location.href = appConfig.value.redirect_url + queryString;
         });
-        // console.log(result.auth_token);
+        //
       } else {
-        payload = createPayload({
-          originalObject: payload,
-          propertiesTBA: {
-            first_name: props.inputs.find((inp) => inp.label === "FIRST_NAME")[
-              "v_model"
-            ],
-            last_name: props.inputs.find((inp) => inp.label === "LAST_NAME")[
-              "v_model"
-            ],
-          },
-        });
-        const result = await $store.dispatch("authentication/signup", payload);
+        const result = await $store.dispatch(
+          "authentication/signup",
+          getPayload()
+        );
         handleResponse(result, () => {
           successNotification("Account created successfully");
           clearSignUpInputs();
