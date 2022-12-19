@@ -6,6 +6,7 @@ export async function login({ commit }, payload) {
     commit("setAuthDetails", {
       ...payload,
       auth_token: result.data.auth_token,
+      refresh_token: result.data.refresh_token,
     });
     return result;
   } catch (err) {

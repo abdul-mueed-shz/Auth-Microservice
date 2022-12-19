@@ -179,15 +179,17 @@ export default {
           "authentication/login",
           getPayload()
         );
+
         handleResponse(result, () => {
           const queryStringObject = {
             auth_token: authDetails.value.auth_token,
+            refresh_token: authDetails.value.refresh_token,
           };
           const queryString =
             "?" + new URLSearchParams(queryStringObject).toString();
+
           window.location.href = appConfig.value.redirect_url + queryString;
         });
-        //
       } else {
         const result = await $store.dispatch(
           "authentication/signup",
