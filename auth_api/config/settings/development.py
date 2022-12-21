@@ -4,6 +4,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SECRET_KEY = 'django-insecure-@&#k#1(0s549x1%3oqcwj*ask5#i&heh=04jlhm--7h%=z6!2x'
+
 DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.sqlite3',

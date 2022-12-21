@@ -13,6 +13,9 @@ from common.authentication.auth import JwtAuthentication
 from common.authentication.utils import create_access_token, create_refresh_token, decode_token
 from django.shortcuts import get_object_or_404
 
+from common.constants.app_constants import UNAUTHORIZED
+from common.constants.dict_keys import AUTH_TOKEN, REFRESH_TOKEN
+
 
 # Create your views here.
 class RegisterView(APIView):
@@ -30,7 +33,6 @@ class LoginView(APIView):
         password = request.data.get('password')
 
         user = User.objects.filter(email=email).first()
-        print(user.id)
         if user is None:
             raise AuthenticationFailed('User not found')
         if not user.check_password(password):
@@ -49,21 +51,21 @@ class LoginView(APIView):
         serializer.save()
 
         data = {
-            "auth_token": access_token,
-            "refresh_token": refresh_token,
+            AUTH_TOKEN: access_token,
+            REFRESH_TOKEN: refresh_token,
         }
 
         response = Response()
-        response.set_cookie(key='refresh_token', value=refresh_token, httponly=True)
+        response.set_cookie(key=REFRESH_TOKEN, value=refresh_token, httponly=True)
         response.data = data
         return response
 
 
 class RefreshView(APIView):
     def post(self, request):
-        refresh_token = request.COOKIES.get('refresh_token') or request.META.get('HTTP_REFRESHTOKEN')
+        refresh_token = request.COOKIES.get(REFRESH_TOKEN) or request.META.get('HTTP_REFRESHTOKEN')
         if not refresh_token:
-            raise AuthenticationFailed("Unauthorized")
+            raise AuthenticationFailed(UNAUTHORIZED)
         token_object = get_object_or_404(RefreshToken, token=refresh_token)
         try:
             payload = decode_token(refresh_token)
@@ -80,23 +82,23 @@ class RefreshView(APIView):
             serializer.is_valid(raise_exception=True)
             serializer.save()
 
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed("Unauthorized")
+            data = {
+                AUTH_TOKEN: access_token,  # get and add new tokens here
+                REFRESH_TOKEN: renewed_token,  # get and add new tokens here
+            }
+            response = Response()
+            response.set_cookie(key=REFRESH_TOKEN, value=renewed_token, httponly=True)
+            response.data = data
+            return response
 
-        data = {
-            "auth_token": access_token,  # get and add new tokens here
-            "refresh_token": renewed_token,  # get and add new tokens here
-        }
-        response = Response()
-        response.set_cookie(key='refresh_token', value=renewed_token, httponly=True)
-        response.data = data
-        return response
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed(UNAUTHORIZED)
 
 
 class LogoutView(APIView):
     def post(self, request):
         response = Response()
-        response.delete_cookie('refresh_token')
+        response.delete_cookie(REFRESH_TOKEN)
         response.data = {
             "message": "Logged out successfully"
         }
