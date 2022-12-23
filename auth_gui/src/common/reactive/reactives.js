@@ -7,12 +7,14 @@ export const INPUTS = ref({
         icon: "mdi-mail",
         label: "EMAIL",
         v_model: null,
+        min_length: 6,
       },
       {
         icon: "mdi-lock",
         type: "password",
         label: "PASSWORD",
         v_model: null,
+        min_length: 7,
       },
     ],
     SINGUP: [
@@ -20,22 +22,26 @@ export const INPUTS = ref({
         icon: "mdi-account",
         label: "FIRST_NAME",
         v_model: null,
+        min_length: 2,
       },
       {
         icon: "mdi-account-tie",
         label: "LAST_NAME",
         v_model: null,
+        min_length: 2,
       },
       {
         icon: "mdi-mail",
         label: "EMAIL",
         v_model: null,
+        min_length: 6,
       },
       {
         icon: "mdi-lock",
         label: "PASSWORD",
         type: "password",
         v_model: null,
+        min_length: 7,
       },
     ],
   },
@@ -45,58 +51,42 @@ export const INPUTS = ref({
         icon: "mdi-mail",
         label: "EMAIL",
         v_model: null,
+        min_length: 6,
+      },
+      {
+        icon: "mdi-lock",
+        type: "password",
+        label: "PASSWORD",
+        v_model: null,
+        min_length: 7,
       },
     ],
     SINGUP: [
       {
+        icon: "mdi-account",
+        label: "FIRST_NAME",
+        v_model: null,
+        min_length: 2,
+      },
+      {
+        icon: "mdi-account-tie",
+        label: "LAST_NAME",
+        v_model: null,
+        min_length: 2,
+      },
+      {
         icon: "mdi-mail",
         label: "EMAIL",
         v_model: null,
+        min_length: 6,
       },
       {
         icon: "mdi-lock",
         label: "PASSWORD",
         type: "password",
         v_model: null,
+        min_length: 7,
       },
     ],
   },
 });
-
-export const LOGIN_INPUTS = ref([
-  {
-    icon: "mdi-mail",
-    label: "EMAIL",
-    v_model: null,
-  },
-  {
-    icon: "mdi-lock",
-    type: "password",
-    label: "PASSWORD",
-    v_model: null,
-  },
-]);
-
-export const SIGNUP_INPUTS = ref([
-  {
-    icon: "mdi-account",
-    label: "FIRST_NAME",
-    v_model: null,
-  },
-  {
-    icon: "mdi-account-tie",
-    label: "LAST_NAME",
-    v_model: null,
-  },
-  {
-    icon: "mdi-mail",
-    label: "EMAIL",
-    v_model: null,
-  },
-  {
-    icon: "mdi-lock",
-    label: "PASSWORD",
-    type: "password",
-    v_model: null,
-  },
-]);

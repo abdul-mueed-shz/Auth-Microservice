@@ -11,6 +11,7 @@
 const ESLintPlugin = require("eslint-webpack-plugin");
 
 const { configure } = require("quasar/wrappers");
+const dotEnvParsed = require("./src/config/dotenv");
 
 module.exports = configure(function (ctx) {
   return {
@@ -23,10 +24,7 @@ module.exports = configure(function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-webpack/boot-files
-    boot: [
-      "axios",
-      // "globals"
-    ],
+    boot: ["axios", "initials", "globals"],
 
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-css
     css: ["app.sass"],
@@ -47,6 +45,7 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-build
     build: {
+      env: dotEnvParsed(),
       vueRouterMode: "hash", // available values: 'hash', 'history'
 
       // transpile: false,
@@ -100,7 +99,7 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ["Notify"],
+      plugins: ["Notify", "Dialog"],
     },
 
     // animations: 'all', // --- includes all animations

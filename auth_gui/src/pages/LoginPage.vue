@@ -30,8 +30,8 @@ import ErrorCard from "src/components/ErrorCard.vue";
 import { computed, defineComponent, onMounted, ref } from "vue";
 import { APP_CONSTANTS, COUPLED_APPS } from "src/common/constants/app";
 import {
-  LOGIN_INPUTS,
-  SIGNUP_INPUTS,
+  // LOGIN_INPUTS,
+  // SIGNUP_INPUTS,
   INPUTS,
 } from "src/common/reactive/reactives";
 import { useStore } from "vuex";
@@ -123,8 +123,8 @@ export default defineComponent({
     //
     return {
       APP_CONSTANTS,
-      LOGIN_INPUTS,
-      SIGNUP_INPUTS,
+      // LOGIN_INPUTS,
+      // SIGNUP_INPUTS,
       context,
       error,
       AppIconSrc,

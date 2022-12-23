@@ -26,3 +26,13 @@ export async function signup({ commit }, payload) {
     // Create a showerror notification
   }
 }
+export async function verifyEmail({ commit }, payload) {
+  try {
+    const result = await api.post("send-otp", payload);
+    return Promise.resolve(result);
+  } catch (err) {
+    console.log(err);
+    return Promise.reject(err.response);
+    // Create a showerror notification
+  }
+}
