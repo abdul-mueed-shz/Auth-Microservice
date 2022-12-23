@@ -45,7 +45,8 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'apps.users.apps.UsersConfig',
-    'apps.tokens.apps.TokensConfig'
+    'apps.tokens.apps.TokensConfig',
+    'apps.verification.apps.VerificationConfig'
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -126,9 +127,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
 
-TOKEN_SECRET = env.str('TOKEN_SECRET', 'django-default-token-secret')
-ENCODING_ALGORITHM = env.str('ENCODING_ALGORITHM', 'HS256')
-
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = [
@@ -136,3 +134,22 @@ CORS_ALLOW_HEADERS = [
     "REFRESHTOKEN",
     "content-type"
 ]
+
+# APP VARIABLES
+
+TOKEN_SECRET = env.str('TOKEN_SECRET', 'django-default-token-secret')
+ENCODING_ALGORITHM = env.str('ENCODING_ALGORITHM', 'HS256')
+
+# To include the SMTP in backend
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', None)
+EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD', None)
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# encryption
+OTP_LENGTH = 6  # Otp string length
+CRYPTO_CIPHER_KEY = env.str('CRYPTO_CIPHER_KEY', None)  # Your key for otp encryption
+CRYPTO_CIPHER_IV = env.str('CRYPTO_CIPHER_IV', None)  # Your iv for otp encryption
