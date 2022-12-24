@@ -9,11 +9,11 @@
 
 
 #
-### How to couple the authentication application with another
+## How to couple the authentication application with another
 * You can configure the app to be coupled by another app for authentication by adding the required information in COUPLED_APPS object in app.js
 * The Coupled application's required information includes the application name, Icon's name to be displayed(Place the app icon in assets/icons) and the url of the application to be verified
 * The jwt token recieved on successful authentication includes the user's email and id present in the login app's database. The coupled app needs to be configured in such a way that the token should be included in the HTTP request's header or cookie with the key of auth_token. The backend of the coupled app needs to implement the appropirate authentication mechanism to check the availibity/validity of the token
-#
+
 
 <h2>Main Features</h2>
 
@@ -25,7 +25,6 @@
 * The auth app redirects to the coupled app along with the auth_token property with the value of jwt token in the query string
 * The application uses mysql as the database
 
-#
 
 <h2>Versions</h2>
 
@@ -34,7 +33,7 @@
 
 
 
-### Technologies used
+## Technologies used
 
 <div style="display:flex">
 <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
@@ -46,7 +45,7 @@
   
 </div>
 
-#
+
 <h2><img  width="30px" src="https://www.animatedimages.org/data/media/491/animated-television-image-0115.gif" border="0" alt="animated-television-image-0115" />
   Screenshots</h2>
 
