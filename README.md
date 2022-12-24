@@ -15,7 +15,7 @@
 * The jwt token recieved on successful authentication includes the user's email and id present in the login app's database. The coupled app needs to be configured in such a way that the token should be included in the HTTP request's header or cookie with the key of auth_token. The backend of the coupled app needs to implement the appropirate authentication mechanism to check the availibity/validity of the token
 #
 
- Main Features</h2>
+<h2>Main Features</h2>
 
 * Complete input fields validation(Frontend)
 * Input fields can easily be modified/added by changing the concerned objects in reactive.js file
@@ -27,6 +27,10 @@
 
 #
 
+<h2>Versions</h2>
+
+* setup-t2: Has jwt authentication with access tokens. Access tokens expires within in a short span of time. Use this version for extremely simple applications
+* version-2/master: Has jwt authentication with refresh and access tokens and the use of environment variable to secure vulnerable information. Create a .env file in the root directory of auth-api and populate it with the information which has to be used in the codebase but you don't want to expose publicly. This version also has email verification using otp during sign up. Users will not be able to sign up with random emails which offers improved security.
 
 
 
