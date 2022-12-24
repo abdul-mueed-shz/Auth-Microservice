@@ -1,8 +1,11 @@
-import { LOGIN_INPUTS, SIGNUP_INPUTS } from "../reactive/reactives";
+import { getGlobalStore } from "src/boot/globals";
+import { INPUTS } from "../reactive/reactives";
 
-export function clearLoginInputs() {}
-export function clearSignUpInputs() {
-  for (let input in SIGNUP_INPUTS.value) {
-    SIGNUP_INPUTS.value[input].v_model = null;
-  }
+const store = getGlobalStore();
+
+export function resetInputs(inputType) {
+  const currentAppName = store.getters["appcommons/getAppConfig"].app_name;
+  INPUTS.value[currentAppName][inputType].forEach((input) => {
+    input.v_model = null;
+  });
 }

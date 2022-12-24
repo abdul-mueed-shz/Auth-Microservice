@@ -9,19 +9,20 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
-
-import apps.users.apps
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR.parent, '.env'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@&#k#1(0s549x1%3oqcwj*ask5#i&heh=04jlhm--7h%=z6!2x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -43,7 +44,9 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    'apps.users.apps.UsersConfig'
+    'apps.users.apps.UsersConfig',
+    'apps.tokens.apps.TokensConfig',
+    'apps.verification.apps.VerificationConfig'
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -124,5 +127,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
 
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
+# APP VARIABLES
+
+TOKEN_SECRET = env.str('TOKEN_SECRET', 'django-default-token-secret')
+ENCODING_ALGORITHM = env.str('ENCODING_ALGORITHM', 'HS256')
+
+# To include the SMTP in backend
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', None)
+EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD', None)
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# encryption
+OTP_LENGTH = 6  # Otp string length
+CRYPTO_CIPHER_KEY = env.str('CRYPTO_CIPHER_KEY', None)  # Your key for otp encryption
+CRYPTO_CIPHER_IV = env.str('CRYPTO_CIPHER_IV', None)  # Your iv for otp encryption

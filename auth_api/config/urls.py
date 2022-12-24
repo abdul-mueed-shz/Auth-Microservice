@@ -21,4 +21,5 @@ api_prefix = 'api/v1/'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path(api_prefix, include('apps.users.api.urls')),
+    path(api_prefix, include('apps.verification.api.urls')),
 ]

@@ -14,8 +14,10 @@
     "@quasar/extras": "^1.0.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "dotenv": "^16.0.3",
     "quasar": "^2.10.2",
     "vue": "^3.0.0",
+    "vue-cryptojs": "^2.3.1",
     "vue-router": "^4.0.0",
     "vuex": "^4.0.1"
   },

@@ -6,6 +6,7 @@ export async function login({ commit }, payload) {
     commit("setAuthDetails", {
       ...payload,
       auth_token: result.data.auth_token,
+      refresh_token: result.data.refresh_token,
     });
     return result;
   } catch (err) {
@@ -22,6 +23,16 @@ export async function signup({ commit }, payload) {
   } catch (err) {
     console.log(err);
     return err.response;
+    // Create a showerror notification
+  }
+}
+export async function verifyEmail({ commit }, payload) {
+  try {
+    const result = await api.post("send-otp", payload);
+    return Promise.resolve(result);
+  } catch (err) {
+    console.log(err);
+    return Promise.reject(err.response);
     // Create a showerror notification
   }
 }

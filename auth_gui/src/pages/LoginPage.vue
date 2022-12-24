@@ -5,12 +5,12 @@
       <input-card
         v-if="context && !error"
         :information="APP_CONSTANTS.LOGIN_INFO"
-        :inputs="LOGIN_INPUTS"
+        :inputs="INPUTS[currentAppName].LOGIN"
       />
       <input-card
         v-else-if="!context && !error"
         :information="APP_CONSTANTS.SIGNUP_INFO"
-        :inputs="SIGNUP_INPUTS"
+        :inputs="INPUTS[currentAppName].SINGUP"
       />
       <error-card v-else :error-message="error" />
     </div>
@@ -29,7 +29,11 @@ import InputCard from "src/components/InputCard.vue";
 import ErrorCard from "src/components/ErrorCard.vue";
 import { computed, defineComponent, onMounted, ref } from "vue";
 import { APP_CONSTANTS, COUPLED_APPS } from "src/common/constants/app";
-import { LOGIN_INPUTS, SIGNUP_INPUTS } from "src/common/reactive/reactives";
+import {
+  // LOGIN_INPUTS,
+  // SIGNUP_INPUTS,
+  INPUTS,
+} from "src/common/reactive/reactives";
 import { useStore } from "vuex";
 
 export default defineComponent({
@@ -42,6 +46,7 @@ export default defineComponent({
     const $store = useStore();
     let currentMode = null;
     const error = ref(null);
+    const currentAppName = ref("Starks");
     const AppIconSrc = ref(null);
     //
     const context = computed(() => {
@@ -97,6 +102,7 @@ export default defineComponent({
         if (verification === true) {
           // Color(define and get those from thhe coupled app object)
           AppIconSrc.value = require(`../assets/icons/${activeApp.app_icon}`);
+          currentAppName.value = activeApp.app_name;
           $store.commit("appcommons/setAppSettings", queryObject);
           return;
         } else if (verification === "404") {
@@ -117,11 +123,14 @@ export default defineComponent({
     //
     return {
       APP_CONSTANTS,
-      LOGIN_INPUTS,
-      SIGNUP_INPUTS,
+      // LOGIN_INPUTS,
+      // SIGNUP_INPUTS,
       context,
       error,
       AppIconSrc,
+      INPUTS,
+      currentAppName,
+      //
     };
   },
 });

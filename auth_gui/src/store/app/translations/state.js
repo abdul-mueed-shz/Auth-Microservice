@@ -16,6 +16,7 @@ export default function () {
       BTN_LABELS: {
         LOGIN: "LOG IN",
         SIGNUP: "Sign Up",
+        VERIFY: "Verify Email",
       },
       STATEMENTS: {
         FORGOT_PASSWORD: "Forgot Password",
