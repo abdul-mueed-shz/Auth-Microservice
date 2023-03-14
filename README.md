@@ -24,6 +24,34 @@
 * Proper error handling
 * The auth app redirects to the coupled app along with the auth_token property with the value of jwt token in the query string
 * The application uses mysql as the database
+* The application uses refresh token rotation system for better security
+
+## Advantages of Refresh Token Rotation System
+
+Refresh token rotation system provides several advantages over the simple implementation of refresh and access tokens:
+
+1. **Enhanced Security:** Refresh token rotation system ensures enhanced security by frequently rotating the refresh tokens. Even if the attacker gets hold of a refresh token, it will be of limited use as it will expire soon and a new token will be issued.
+
+2. **Improved Reliability:** Refresh token rotation system leads to improved reliability of the system as access tokens have a shorter lifespan. This enables easy token rotation and issuance of new tokens in case of any issues without disrupting the user experience.
+
+3. **Greater Robustness:** Refresh token rotation system makes the application more robust by making it less vulnerable to attacks. Frequent token rotation makes it difficult for attackers to gain long-term access to the system.
+
+4. **Prevention of Hijacks:** Refresh token rotation system reduces the risk of hijacks as the frequent rotation of refresh tokens makes it harder for attackers to gain long-term access.
+
+## Implementation of Refresh Token Rotation System
+
+I have implemented the refresh token rotation system in our application to ensure better security, reliability, and robustness. The system works as follows:
+
+1. Whenever a user logs in, the application generates an access token and a refresh token.
+
+2. The access token has a short lifespan (e.g., 15 minutes), while the refresh token has a longer lifespan (e.g., 7 days).
+
+3. When the access token expires, the user can use the refresh token to obtain a new access token. Upon successful retrieval of the new access token, the application issues a new refresh token and invalidates the previous one.
+
+4. The refresh token is also rotated every time it is used to obtain a new access token.
+
+By implementing the refresh token rotation system, we have ensured enhanced security, reliability, robustness, and prevention of hijacks in our application.
+
 
 
 <h2>Versions</h2>
