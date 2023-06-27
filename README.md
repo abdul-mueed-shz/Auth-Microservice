@@ -81,6 +81,12 @@ By implementing the refresh token rotation system, we have ensured enhanced secu
 ![signup](https://github.com/Abdul-Mueed-Shahbaz/Auth-Application/assets/52679916/5777e3e9-35bf-4ae1-a02e-ae10345b7129)
 ![loginError](https://github.com/Abdul-Mueed-Shahbaz/Auth-Application/assets/52679916/d762c931-7b6e-4bdf-90ac-d8f144f0fee6)
 ![signupError](https://github.com/Abdul-Mueed-Shahbaz/Auth-Application/assets/52679916/80bfd83d-0d33-4c3a-988d-2155c009b350)
+![emailVerification](https://github.com/Abdul-Mueed-Shahbaz/Auth-Application/assets/52679916/68d4947c-afd0-46bc-abfa-b8fb3c0b93e6)
+![otp](https://github.com/Abdul-Mueed-Shahbaz/Auth-Application/assets/52679916/8992541d-fefa-43ac-8094-11288c1f9abd)
+![verificationEmail](https://github.com/Abdul-Mueed-Shahbaz/Auth-Application/assets/52679916/ca41e585-44e1-4266-be1c-daf4c6759b20)
+
+
+
 ![error1](https://user-images.githubusercontent.com/52679916/205466702-eba19489-9389-4dbe-96a8-46bc7929e4a3.PNG)
 ![error2](https://user-images.githubusercontent.com/52679916/205466704-7dca6294-7439-4024-9201-512e6c8587c3.PNG)
 ![Responsive](https://user-images.githubusercontent.com/52679916/205466709-a501798b-5900-4eca-9f60-d6c65e91c3da.png)
