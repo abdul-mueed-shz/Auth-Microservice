@@ -15,7 +15,7 @@
       <error-card v-else :error-message="error" />
     </div>
     <div class="gt-sm col-4 column flex-center bg-primary">
-      <q-img v-if="!error" class="logo" :src="AppIconSrc"></q-img>
+      <q-img v-if="!error" width="35rem" :src="AppIconSrc"></q-img>
       <div v-else class="column flex-center">
         <q-icon size="300px" name="mdi-emoticon-sad-outline"></q-icon>
         <div>Can't fetch logo! Something Went Wrong</div>
