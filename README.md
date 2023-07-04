@@ -2,7 +2,7 @@
   <img src="https://media.giphy.com/media/077i6AULCXc0FKTj9s/giphy.gif" width="100"/>
 </div>
 
-<h1><img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="30px"/>Authentication Application</h1>
+<h1><img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="30px"/>AuthBridge</h1>
 
 <h4>A Full stack authentication application made using quasar 2 for frontend and django rest framework for backend. The application is made completely flexible to be coupled with any other application and implements jwt token authentication.</h4>
 
